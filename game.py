@@ -35,30 +35,18 @@ class Player(pygame.sprite.Sprite):  # класс Игрока
     def update(self, pressed_keys):  # функция движения игрока
         if pressed_keys[K_UP]:  # для  кнопки *стрелка вверх*
             self.rect.move_ip(0, -5)
-            while not pygame.mixer.get_busy():  # играть звук шагов, который не перебивает звук ударов
-                footstep_sound.play()
 
         if pressed_keys[K_DOWN]:
             self.rect.move_ip(0, 5)
-            while not pygame.mixer.get_busy():
-                footstep_sound.play()
         if pressed_keys[K_LEFT]:
             self.rect.move_ip(-5, 0)
-            while not pygame.mixer.get_busy():
-                footstep_sound.play()
         if pressed_keys[K_RIGHT]:
             self.rect.move_ip(5, 0)
-            while not pygame.mixer.get_busy():
-                footstep_sound.play()
 
         if pressed_keys[K_RIGHT] and pressed_keys[K_LSHIFT]:  # ускорение с помощью шифта
             self.rect.move_ip(15, 0)
-            while not pygame.mixer.get_busy():
-                footstep_sound.play()
         if pressed_keys[K_LEFT] and pressed_keys[K_LSHIFT]:  # ускорение с помощью шифта
             self.rect.move_ip(-15, 0)
-            while not pygame.mixer.get_busy():
-                footstep_sound.play()
 
         # Условия ограничения движения игрока за экран
         if self.rect.left < 0:
@@ -104,11 +92,6 @@ class Arrow(pygame.sprite.Sprite):
             self.kill()
 
 
-pygame.mixer.init()
-
-arrow_sound = pygame.mixer.Sound("sounds/sword.ogg")
-footstep_sound = pygame.mixer.Sound("sounds/run3.ogg")
-death_sound = pygame.mixer.Sound("sounds/death.ogg")
 
 pygame.init()
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
@@ -209,7 +192,6 @@ while running:
             enemies.add(new_enemy)
         elif event.type == pygame.MOUSEBUTTONDOWN:
             strike = True
-            arrow_sound.play()
             arrow = Arrow()
             arrow.rect.x = player.rect.x
             arrow.rect.y = player.rect.y
@@ -217,9 +199,6 @@ while running:
             arrows.add(arrow)
         elif event.type == pygame.MOUSEBUTTONUP:
             strike = False
-        if event.type == pygame.KEYUP:
-            if event.key == pygame.K_UP or event.key == pygame.K_DOWN or event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
-                footstep_sound.stop()
         if event.type == pygame.KEYDOWN:
             if event.key == K_RIGHT:
                 right = True
@@ -241,7 +220,6 @@ while running:
     for arrow in arrows:
         enemy_hit_list = pygame.sprite.spritecollide(arrow, enemies, True)
         for new_enemy in enemy_hit_list:
-            death_sound.play()
             arrows.remove(arrow)
             all_sprites.remove(arrow)
             score += 1
@@ -256,13 +234,15 @@ while running:
     enemies.update()
 
     if pygame.sprite.spritecollideany(player, enemies):
-        death_sound.play()
         player.kill()
         print("Game over!")
         running = False
     redrawGameWindow()
     pygame.display.flip()
-    
+
+
 def test_passing():
     assert (1, 2, 3) == (1, 2, 3)
+
+
 print('Your score is: ', score)
