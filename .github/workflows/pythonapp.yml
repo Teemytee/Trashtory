@@ -2,6 +2,9 @@
 # For more information see: https://help.github.com/actions/language-and-framework-guides/using-python-with-github-actions
 
 name: GAtest
+env:
+  APPLICATION_NAME   : "MyFlask"
+  DEPLOY_PACKAGE_NAME: "Flask-deploy-ver-${{ github.sha }}"
 
 on:
   push:
@@ -15,6 +18,12 @@ jobs:
     steps:
       - name: Print Hello Message in Testing
         run: echo "Hello World from Testing job"
+        
+      - name: Execute few commands
+        run: |
+          echo "Hello message1"
+          echo "Hello message2"
+          echo "Application name: ${{ env.APPLICATION_NAME }}
     
 
   my_deploy:
@@ -24,3 +33,6 @@ jobs:
     steps:
       - name: Print Hello Message in Deploy
         run: echo "Hello World from Deploy job"
+        
+      - name: Printing Deployment package
+        run: echo Deploy package name is ${{ env.DEPLOY_PACKAGE_NAME }}
