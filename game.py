@@ -262,4 +262,7 @@ while running:
         running = False
     redrawGameWindow()
     pygame.display.flip()
+    
+def test_passing():
+    assert (1, 2, 3) == (1, 2, 3)
 print('Your score is: ', score)
