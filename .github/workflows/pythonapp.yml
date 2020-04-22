@@ -62,7 +62,7 @@ jobs:
         run: zip --version
   build:
 
-    runs-on: ubuntu-latest
+    runs-on: windows
     strategy:
       matrix:
         python-version: [3.8]
