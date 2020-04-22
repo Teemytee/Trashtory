@@ -12,54 +12,6 @@ on:
       - master
 
 jobs:
-  my_testing:
-
-    runs-on: ubuntu-latest
-    steps:
-      - name: Print Hello Message in Testing
-        run: echo "Hello World from Testing job"
-        
-      - name: Execute few commands
-        run: |
-          echo "Hello message1"
-          echo "Hello message2"
-          echo "Application name: ${{ env.APPLICATION_NAME }}"
-      - name: List current folder
-        run: ls -la
-        
-      - name: Git clone my repo
-        uses: actions/checkout@v1
-      
-      - name: List current folder
-        run: ls -la
-    
-
-  my_deploy:
-    runs-on: ubuntu-latest
-    needs: [my_testing]
-    env: 
-      VAR1: "This is job variable 1"
-      VAR2: "This is job variable 2"
-    
-    steps:
-      - name: Print Hello Message in Deploy
-        run: echo "Hello World from Deploy job"
-      - name: Print env vars
-        run : |
-          echo "Var1 = ${{ env.VAR1 }}"
-          echo "Var2 = ${{ env.VAR2 }}"
-          echo "SuperLocalVar = $LOCALVAR"
-        env:
-          LOCALVAR: "This is superlocal variable"
-        
-      - name: Printing Deployment package
-        run: echo "Deploy package name is ${{ env.DEPLOY_PACKAGE_NAME }}"
-        
-      - name: Let's test some packages if they're here 1
-        run: aws --version
-        
-      - name: Let's test some packages if they're here 2
-        run: zip --version
   build:
 
     runs-on: windows
@@ -68,7 +20,7 @@ jobs:
         python-version: [3.8]
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v1
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v1
       with:
