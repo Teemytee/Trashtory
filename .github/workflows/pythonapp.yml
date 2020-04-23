@@ -45,3 +45,18 @@ jobs:
         path: junit/test-results-${{ matrix.python-version }}.xml
         # Use always() to always run this step to publish test results when there are test failures
       if: always()
+  notif:
+    runs-on: windows-2019
+    needs: [build]
+    name: A job to launch telegram notifications
+    steps:
+    - name: Send notifications
+      id: send_notifications
+      uses: danilat/externalized-telegram-notifications-action@master
+      with:
+        to: ${{ secrets.TELEGRAM_ID_OR_CHANNEL }}
+        token: ${{ secrets.TELEGRAM_TOKEN }}
+        content-url: ${{ secrets.CONTENT_URL }}
+        parse_mode: html
+        
+    
